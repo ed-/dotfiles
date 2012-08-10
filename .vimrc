@@ -11,9 +11,14 @@ set shiftwidth=4
 set softtabstop=4
 set tabstop=4
 set wildmenu
-set wildmode=full
+set wildmode=longest:full
 set winheight=999
-set wmh=0
+set winminheight=0
+set winwidth=80
+set winminwidth=80
+
+" make netrw open things to the right, not the left.
+let g:netrw_altv=1
 
 " I don't like seeing .filename.swp files everywhere.
 set backupdir=~/.vim/backup
@@ -43,26 +48,23 @@ map <S-Left> <C-W>H<C-W>_
 map <S-Right> <C-W>L<C-W>_
 
 " > not doing this
-" > 2011
+" > 2012
 " ISHYGDDT
 map j gj
 map k gk
 
-" pressing escape is hard.
-imap jj <Esc>
-
 " kill highlights when I jump to insert mode. press n to see them again.
 nnoremap i :noh<CR>i
 
-" See this word I'm on? Global replace it with something.
-nnoremap <Leader>s :%s/\<<C-r><C-w>\>//g<Left><Left>
+" Custom file search function wildfind
+nnoremap <Leader>w :setlocal buftype=nofile<CR>:%!wildfind<Space>
 
-
-nnoremap <Leader>n :NERDTreeToggle<CR>
+" \d will find the <<< === >>> boundaries in a conflict.
+nnoremap <Leader>d /^<<<\\|^===\\|^>>><CR>
 
 syntax on
 set t_Co=256
-colo inkpot
+colo vividchalk
 
 " There's probably a better way to do this.
 function! UpdateGitDiff()
@@ -84,3 +86,7 @@ nnoremap <Leader>g :call GitDiff()<CR>
 " If you're not working on a fork of Openstack's Nova, disregard.
 au BufRead *nova.log set ft=novalog
 au BufRead *nova.log set autoread
+
+" Sneaky Pete / Nova Guest log.
+au BufRead *guest.log set ft=sneakylog
+au BufRead *guest.log set autoread
