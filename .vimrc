@@ -9,16 +9,12 @@ set ruler
 set scrolloff=999
 set shiftwidth=4
 set softtabstop=4
+set splitright
 set tabstop=4
 set wildmenu
 set wildmode=longest:full
 set winheight=999
 set winminheight=0
-set winwidth=80
-set winminwidth=80
-
-" make netrw open things to the right, not the left.
-let g:netrw_altv=1
 
 " I don't like seeing .filename.swp files everywhere.
 set backupdir=~/.vim/backup
@@ -47,9 +43,7 @@ imap <Right> <Nop>
 map <S-Left> <C-W>H<C-W>_
 map <S-Right> <C-W>L<C-W>_
 
-" > not doing this
-" > 2012
-" ISHYGDDT
+" make j and k move up and down one visual line, not one text line
 map j gj
 map k gk
 
@@ -62,31 +56,28 @@ nnoremap <Leader>w :setlocal buftype=nofile<CR>:%!wildfind<Space>
 " \d will find the <<< === >>> boundaries in a conflict.
 nnoremap <Leader>d /^<<<\\|^===\\|^>>><CR>
 
+" \f will open the file under the cursor in a right-split.
+nnoremap <Leader>f :vertical wincmd f<CR>
+
+" F5 will just run the current script, assuming it's executable.
+nnoremap <F5> :!clear; ./%<CR>
+
 syntax on
 set t_Co=256
-colo vividchalk
+colo inkpot
 
 " There's probably a better way to do this.
+" Open a buffer with :sp git-diff, and MAGIC will happen!
 function! UpdateGitDiff()
-	silent :%!git diff
-endfunction
-
-function! GitDiff()
-	vnew
 	setlocal buftype=nofile
 	setlocal noswapfile
-	file git-diff
-	set filetype=diff
-    call UpdateGitDiff()
+	silent :%!git diff
+    set ft=diff
 endfunction
 
 au BufEnter git-diff :call UpdateGitDiff()
-nnoremap <Leader>g :call GitDiff()<CR>
 
-" If you're not working on a fork of Openstack's Nova, disregard.
-au BufRead *nova.log set ft=novalog
-au BufRead *nova.log set autoread
+nnoremap <Leader>g :leftabove vsp git-diff<CR>
 
-" Sneaky Pete / Nova Guest log.
-au BufRead *guest.log set ft=sneakylog
-au BufRead *guest.log set autoread
+" now! is replaced with the current date, a newline, and a tab.
+iab <expr> now! strftime("%A, %d %B %Y %I:%M%p\n\t")
