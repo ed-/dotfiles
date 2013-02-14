@@ -64,6 +64,7 @@ nnoremap <F5> :!clear; ./%<CR>
 
 syntax on
 set t_Co=256
+" https://github.com/ciaranm/inkpot
 colo inkpot
 
 " There's probably a better way to do this.
