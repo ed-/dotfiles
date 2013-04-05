@@ -30,9 +30,15 @@ set wildmode=longest:full " show me the longest match first, and show me the wil
 
 " Windows
 set splitright " when I split my windows, put the new one right of the current one
-let g:netrw_altv=1 " specific to NetRW, split new windows to the right
 set winheight=999 " expand a window as wide as possible
 set winminheight=0 " compact other windows to just their title bar
+
+" File Explorer - I use NetRW.
+let g:netrw_altv=1 " specific to NetRW, split new windows to the right
+let g:netrw_browse_split=4 " Open file in the last buffer opened.
+let g:netrw_liststyle=3 " Use tree-mode by default.
+let g:netrw_preview=1 " Show preview in a vertical split.
+let g:netrw_winsize=20 "Use 20% of the window for the browser, 80% for previews.
 
 " I don't like seeing .filename.swp files everywhere.
 set backupdir=~/.vim/backup
